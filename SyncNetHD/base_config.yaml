@@ -1,0 +1,25 @@
+audio:
+  num_mels: 80
+  n_fft: 800
+  hop_size: 200    # 16kHz, 12.5 ms
+  win_size: 800    # 16kHz, 50 ms
+  sample_rate: 16000     # sample rate
+
+  rescale: true         # whether to rescale audio before preproc.
+  rescalling_max: 0.9
+  use_lws: false
+  signal_normalization: true
+  allow_clipping_in_normalization: true
+  symmetric_mels: true
+  max_abs_value: 4.0    # Rescale [-max, max], Wav2Lip default: 4.0
+  preemphasize: true
+  preemphasis: 0.97
+
+  min_level_db: -100
+  ref_level_db: 20
+  fmin: 55    # Wav2Lip: 55 for male and  95 for female
+  fmax: 7600
+
+video:
+  fps: 25
+  img_size: 192

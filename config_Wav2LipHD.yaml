@@ -1,0 +1,49 @@
+task: Wav2LipHD
+
+base_config: SyncNetHD/base_config.yaml
+
+data:
+  data_root: preprocessed_data/LRS_520
+  train_list: data_list/LRS_520/train.txt
+  val_list: data_list/LRS_520/val.txt
+  
+  pre_calculate_mels: true
+  pre_calculate_dir: cache_wav2lipHD_EN_run2
+  pre_calculate_threads: 16
+
+  audio_augment: false
+  gaussian_noise_prob: 0.1
+  freq_mask_prob: 0.1
+  pitch_shift_prob: 0.1
+
+
+model:
+  use_SyncNetHD: true
+  permute_disc_data: false
+  disc_weight: 0.0
+  sync_weight: 0.001
+  syncnet_ckpt: exp/SyncNetColorHD/ZYDF6LRS90_BC256_LR1e-3_MAV4.0_NoAug/checkpoint_step63000.pth
+  disc_ckpt: ""
+  wav2lip_ckpt: exp/Wav2LipHD/LRS520En_BC16_LR1e-4_MAV4_run1_SyncHD_dwt0_swt0.001/checkpoint_step90000.pth
+
+runtime:
+  nepochs: 10000000
+  steps_per_epoch: 50
+  batch_size: 16
+  model_learning_rate: 0.0001
+  disc_learning_rate: 0.0001
+  num_workers: 8
+  checkpoint_interval: 1000
+  eval_interval: 200
+  eval_forward_steps: 10
+  save_optimizer_state: true
+  checkpoint_dir: exp/Wav2LipHD/LRS520En_BC16_LR1e-4_MAV4_run1_SyncHD_dwt0_swt0.001
+
+wandb:
+  name: run1_SyncHD_dwt0_swt0.001_continue
+  enable: true
+  project: Wav2LipHD
+  tags: ["MARV4.0", "NoPerm", "SyncHD", "NoAug", "run1"]
+  notes: null
+  group: 'LRS_en'
+  resume: false

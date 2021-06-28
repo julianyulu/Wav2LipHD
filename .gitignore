@@ -1,0 +1,12 @@
+*~
+cache*/
+data_list/
+exp
+filelists/
+output_*/
+wandb/
+temp_syncnet/
+__pycache__/
+preprocessed_data
+test_dataloader.py
+shape_predictor_68_face_landmarks.dat

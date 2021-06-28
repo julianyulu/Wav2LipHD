@@ -1,0 +1,44 @@
+task: SyncNet
+
+base_config: SyncNet/base_config.yaml
+
+data:
+  data_root: /data/julianlu/Experiment/Wav2LipHD/preprocessed_data/mix_ZYDH6PAD50_LRS3SPK90
+  train_list: /data/julianlu/Experiment/Wav2LipHD/filelists/ZYDH6_LRS_90spk/train_old.txt
+  val_list: /data/julianlu/Experiment/Wav2LipHD/filelists/ZYDH6_LRS_90spk/val.txt
+  
+  # data_root: preprocessed_data/LRS_520
+  # train_list: data_list/LRS_520/train.txt
+  # val_list: data_list/LRS_520/val.txt
+  
+  pre_calculate_mfcc: true
+  pre_calculate_dir: cache_syncnetDF
+  pre_calculate_threads: 16
+
+
+model:
+  resume_ckpt: ""
+  resume_ckpt_config: false
+
+runtime:
+  nepochs: 10000000
+  steps_per_epoch: 10
+  batch_size: 256
+  init_learning_rate: 0.001
+  num_workers: 8
+  checkpoint_interval: 1000
+  eval_interval: 100
+  eval_forward_steps: 10
+  save_optimizer_state: true
+  checkpoint_dir: exp/SyncNetDF/SyncNetDF_ZYDF6LRS90_bc256_lr0.001
+
+
+wandb:
+  name: MFCC_run1
+  enable: true
+  project: SyncNet
+  tags: ["MFCC", "NoAug"]
+  notes: ""
+  group: 'ZYDF6LRS90'
+  resume: false
+  

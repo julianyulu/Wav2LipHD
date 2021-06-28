@@ -1,0 +1,10 @@
+audio:
+  n_mfcc: 13
+  n_fft: 512
+  hop_size: 10    # 16kHz, 12.5 ms
+  win_size: 25    # 16kHz, 50 ms
+  sample_rate: 16000     # sample rate
+
+video:
+  fps: 25
+  img_size: 240
