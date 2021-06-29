@@ -41,9 +41,14 @@ if __name__ == '__main__':
         module_path = "SyncNet"
     elif task == 'LdmkSync':
         module_path = "LdmkSync"
+    elif task == 'Wav2LipHD_patchGAN':
+        module_path = "Wav2LipHD"
     else:
         raise ValueError(f"{task} name not valid, options: ['Wav2LipHD', SyncNetHD']")
-    
-    Runner = getattr(importlib.import_module(f"{module_path}.runner"),'Runner')
+
+    if 'patch' in task:
+        Runner = getattr(importlib.import_module(f"{module_path}.runner_patch"),'Runner')
+    else:
+        Runner = getattr(importlib.import_module(f"{module_path}.runner"),'Runner')
     runner = Runner(config)
     runner.train()
