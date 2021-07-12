@@ -63,7 +63,7 @@ class Dataset(object):
             window_fnames.append(frame)
         return window_fnames
 
-    def read_window(self, window_fnames):
+    def read_window(self, window_fnames, aug_img = False):
         if window_fnames is None: return None 
         window = []
         for fname in window_fnames:
@@ -72,12 +72,28 @@ class Dataset(object):
                 return None
             try:
                 img = cv2.resize(img, (self.config.video.img_size, self.config.video.img_size))
+                if aug_img and self.config.data.img_augment: img = self.img_aug(img)
             except Exception as e:
                 return None 
 
             window.append(img)
         return window
 
+    def img_aug(self, img):
+        # zoom in
+        h, w = img.shape[:2]
+        scale = random.uniform(0.8, 1.2)
+        x0 = random.randrange(0, int(w * abs(1 - scale)) + 1)
+        y0 = random.randrange(0, int(h * abs(1 - scale)) + 1)
+        if scale > 1:
+            img = cv2.resize(img, (int(h*scale), int(w*scale)), interpolation = cv2.INTER_AREA)
+            img = img[y0:y0+h, x0:x0+w]
+        else:
+            img = img[y0: y0 + int(h * scale), x0:x0 + int(w * scale)]
+            img = cv2.resize(img, (h, w), interpolation = cv2.INTER_AREA)
+        return img 
+        
+        
     def crop_audio_window(self, spec, start_frame):
         # num_frames = (T x hop_size * fps) / sample_rate
         if type(start_frame) == str:
@@ -134,7 +150,7 @@ class Dataset(object):
             # get input(mask_window) & target(gt_window)  frames
             img_name = random.choice(img_names)
             window_fnames = self.get_window(img_name) 
-            window = self.read_window(window_fnames) #(5, 192, 192, 3)
+            window = self.read_window(window_fnames, aug_img = False) #(5, 192, 192, 3)
             if window is None: continue
             gt_window = np.transpose(np.asarray(window) / 255., (3, 0, 1, 2))
             mask_window = gt_window.copy() # [3, 5, 192, 192]
@@ -146,9 +162,9 @@ class Dataset(object):
             while ref_img_name == img_name:
                 ref_img_name = random.choice(img_names)
             ref_window_fnames = self.get_window(ref_img_name)
-            ref_window = self.read_window(ref_window_fnames) #(5, 192, 192, 3)
-            if ref_window_fnames is None: continue
-            ref_window = np.transpose(np.asarray(ref_window) / 255., (3, 0, 1, 2))
+            ref_window = self.read_window(ref_window_fnames, aug_img = True) #(5, 192, 192, 3)
+            if ref_window is None: continue
+            ref_window = np.transpose(np.asarray(ref_window) / 255., (3, 0, 1, 2)) # (3, 5, 192, 192)
 
             # combine mask_windown & ref_window into input_window 
             input_window = np.concatenate([mask_window, ref_window], axis = 0) # [6, 5, 192, 192]

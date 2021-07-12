@@ -8,10 +8,11 @@ data:
   val_list: /data/julianlu/Experiment/Wav2LipHD/filelists/ZYDH6_LRS_90spk_BLSilence/val.txt
 
   pre_calculate_mels: true
-  pre_calculate_dir: cache_wav2lipCN_patchGAN2
+  pre_calculate_dir: cache_wav2lipCN_patchGAN_Aug
   pre_calculate_threads: 16
 
   audio_augment: false
+  img_augment: true
   gaussian_noise_prob: 0.1
   freq_mask_prob: 0.1
   pitch_shift_prob: 0.1
@@ -19,12 +20,12 @@ data:
 model:
   use_SyncNetHD: false
   permute_disc_data: false
-  disc_weight: 0.01
+  disc_weight: 0
   sync_weight: 0.01
   patchgan_weight: 0.01
   syncnet_ckpt: /data/julianlu/Experiment/Wav2LipHD/checkpoints/lipsync_expert.pth
   disc_ckpt: ""
-  wav2lip_ckpt: exp/Wav2LipHD_CN/LRS520En_BC12_LR1e-4_MAV4_run3_AugPerm_DFSync_dwt0.01_swt0.01/checkpoint_step352000.pth
+  wav2lip_ckpt: exp/Wav2LipHD_patchGAN_CN/LRS520En_BC12_LR1e-4_MAV4_run1_DFSync_dwt0_swt0.01_pwt0.01/checkpoint_step242000.pth
 
 runtime:
   nepochs: 10000000
@@ -38,13 +39,13 @@ runtime:
   eval_interval: 500
   eval_forward_steps: 10
   save_optimizer_state: true
-  checkpoint_dir: exp/Wav2LipHD_patchGAN_CN/LRS520En_BC12_LR1e-4_MAV4_run1_DFSync_dwt0.01_swt0.01_pwt0.01
+  checkpoint_dir: exp/Wav2LipHD_patchGAN_CN/LRS520En_BC12_LR1e-4_MAV4_run2_DFSync_dwt0_swt0.01_pwt0.01_ImgAug
 
 wandb:
-  name: run1_DFSync_patchGAN_dwt0.01_swt0.01_pwt0.01
+  name: run1_DFSync_patchGAN_dwt0.01_swt0.01_pwt0.01_imgAug
   enable: true
   project: Wav2LipHD
-  tags: ["MARV4.0", "NoAug", "run1"]
+  tags: ["MARV4.0", "ImgAug", "run2"]
   notes: null
   group: 'patchGAN_CN'
   resume: false

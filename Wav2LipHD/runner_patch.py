@@ -132,6 +132,20 @@ class Runner:
             }, ckpt_path)
             print(f"Saved checkpoint: {ckpt_path}")
 
+        # save patchGAN if trained (i.e. weight > 0)
+        if self.cfg.model.patchgan_weight > 0: 
+            ckpt_path = os.path.join(self.cfg.runtime.checkpoint_dir,
+                                     f"patchgan_checkpoint_step{int(self.global_step)}.pth")
+            opt_state = self.patchgan_optimizer.state_dict() if self.cfg.runtime.save_optimizer_state else None
+            model_state = self.patchgan.state_dict()
+            torch.save({
+                "state_dict": model_state,
+                "optimizer": opt_state,
+                "global_step": self.global_step,
+                "global_epoch": self.global_epoch
+            }, ckpt_path)
+            print(f"Saved checkpoint: {ckpt_path}")
+
         
     def get_dataloader(self, split):
         dataset = Dataset(self.cfg, split)
