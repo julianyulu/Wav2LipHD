@@ -12,6 +12,7 @@ data:
   pre_calculate_threads: 16
 
   audio_augment: false
+  img_augment: false
   gaussian_noise_prob: 0.1
   freq_mask_prob: 0.1
   pitch_shift_prob: 0.1
