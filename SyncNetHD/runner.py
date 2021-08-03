@@ -94,7 +94,7 @@ class Runner:
         if not hasattr(self, '_bce_loss'):
             self._bce_loss = torch.nn.BCELoss()
         d = torch.nn.functional.cosine_similarity(a, v)
-        loss = self._bce_loss(d.unsqueeze(1), y)
+        loss = self._bce_loss((d.unsqueeze(1) + 1) / 2., y)
         return loss 
 
     def log(self, log_dict):

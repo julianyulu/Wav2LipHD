@@ -159,7 +159,7 @@ class Runner:
         a, v = self.syncnet(mel, half_face_window)
         y = torch.ones(half_face_window.size(0), 1).float().to(device)
         cosine_sim = torch.nn.functional.cosine_similarity(a, v)
-        loss = torch.nn.BCELoss()(cosine_sim.unsqueeze(1), y)
+        loss = torch.nn.BCELoss()((cosine_sim.unsqueeze(1) + 1) / 2., y)
         return loss
 
     def l1_loss(self, gen_window, gt_window):

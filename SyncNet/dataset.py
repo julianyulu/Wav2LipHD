@@ -93,7 +93,7 @@ class Dataset(object):
     def pre_calculate_mfcc(self):
         outdir = os.path.join(self.config.data.pre_calculate_dir, self.split)
         print(f"Pre-calculating mfcc, save_dir: {outdir}")
-        if os.path.isdir(outdir): shutil.rmtree(outdir)
+        if os.path.isdir(outdir): return #shutil.rmtree(outdir)
         os.makedirs(outdir, exist_ok = True)
         wavs = [os.path.join(self.config.data.data_root, x, 'audio.wav') for x in self.all_videos]
 

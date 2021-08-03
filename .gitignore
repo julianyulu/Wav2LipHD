@@ -3,6 +3,7 @@ cache*/
 data_list/
 exp
 filelists/
+checkpoints/
 output_*/
 wandb/
 temp_syncnet/
