@@ -1,9 +1,8 @@
-<<<<<<< HEAD
 # Wav2LipHD  
 
-HD version of Wav2Lip with code structure reformatted. 
+An HD version of Wav2Lip with code structure optimized for easy use. 
+
+Note: This is a preliminary release. Complete guidlines coming soon.
 
 
-=======
-# Wav2LipHD
->>>>>>> d905282d734356bbcef14342e4636c912e78b556
+
